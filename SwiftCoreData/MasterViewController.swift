@@ -40,7 +40,9 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         // If appropriate, configure the new managed object.
         // Normally you should use accessor methods, but using KVC here avoids the need to add a custom class to the template.
         newManagedObject.setValue(NSDate(), forKey: "timeStamp")
-             
+        newManagedObject.setValue("名前", forKey: "name")
+        newManagedObject.setValue("キャンプ名", forKey: "campName")
+        newManagedObject.setValue("コース名", forKey: "cource")
         // Save the context.
         var error: NSError? = nil
         if !context.save(&error) {
@@ -60,6 +62,10 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
             (segue.destinationViewController as! DetailViewController).detailItem = object
             }
         }
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        self.performSegueWithIdentifier("showDetail", sender: AnyObject?())
     }
 
     // MARK: - Table View
@@ -101,7 +107,8 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
 
     func configureCell(cell: UITableViewCell, atIndexPath indexPath: NSIndexPath) {
             let object = self.fetchedResultsController.objectAtIndexPath(indexPath) as! NSManagedObject
-        cell.textLabel!.text = object.valueForKey("timeStamp")!.description
+        cell.textLabel!.text = object.valueForKey("name")! as? String
+        cell.detailTextLabel?.text = object.valueForKey("campName")! as? String
     }
 
     // MARK: - Fetched results controller
@@ -113,14 +120,14 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         
         let fetchRequest = NSFetchRequest()
         // Edit the entity name as appropriate.
-        let entity = NSEntityDescription.entityForName("Event", inManagedObjectContext: self.managedObjectContext!)
+        let entity = NSEntityDescription.entityForName("Member", inManagedObjectContext: self.managedObjectContext!)
         fetchRequest.entity = entity
         
         // Set the batch size to a suitable number.
         fetchRequest.fetchBatchSize = 20
         
         // Edit the sort key as appropriate.
-        let sortDescriptor = NSSortDescriptor(key: "timeStamp", ascending: false)
+        let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
         let sortDescriptors = [sortDescriptor]
         
         fetchRequest.sortDescriptors = [sortDescriptor]
