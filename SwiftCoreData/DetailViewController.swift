@@ -26,9 +26,15 @@ class DetailViewController: UIViewController {
     func configureView() {
         // Update the user interface for the detail item.
         if let detail: AnyObject = self.detailItem {
-            self.memberNameLabel.text = self.detailItem?.valueForKey("name") as? String
-            self.campNameLabel.text = self.detailItem?.valueForKey("campName") as? String
-            self.courceLabel.text = self.courceLabel.valueForKey("cource") as? String
+            if let label = self.memberNameLabel{
+                label.text = detailItem?.valueForKey("name")!.description
+            }
+            if let label = self.campNameLabel{
+                label.text = detailItem?.valueForKey("campName")!.description
+            }
+            if let label = self.courceLabel{
+                label.text = detailItem?.valueForKey("cource")!.description
+            }
         }
     }
 
@@ -43,12 +49,12 @@ class DetailViewController: UIViewController {
     }
     
     @IBAction func changedCampName(sender: UITextField) {
-        self.detailItem?.setValue(self.memberNameLabel.text, forKey: "campName")
+        self.detailItem?.setValue(self.campNameLabel.text, forKey: "campName")
         self.saveContext()
     }
     
     @IBAction func changedCource(sender: AnyObject) {
-        self.detailItem?.setValue(self.memberNameLabel.text, forKey: "cource")
+        self.detailItem?.setValue(self.courceLabel.text, forKey: "cource")
         self.saveContext()
     }
     
@@ -58,25 +64,12 @@ class DetailViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
         self.configureView()
         
-        memberNameLabel.text = "名前"
-        campNameLabel.text = "キャンプ名"
-        courceLabel.text = "iPhoneアプリ開発コース"
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-//    required init?(coder: NSCoder) {
-//        //fatalError("init(coder:) has not been implemented")
-//        
-//        super.init(coder: coder)
-//        
-//        textField.stringValue = "a string"
-//        
-//    }
-
 
 }
 

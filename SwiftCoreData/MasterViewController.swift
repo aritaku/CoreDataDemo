@@ -63,10 +63,6 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
             }
         }
     }
-    
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.performSegueWithIdentifier("showDetail", sender: AnyObject?())
-    }
 
     // MARK: - Table View
 
